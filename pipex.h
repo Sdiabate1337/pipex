@@ -1,7 +1,6 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "GET_NEXT_LINE/get_next_line.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
@@ -18,6 +17,7 @@ void    ft_free_2d(char **str);
 void    ft_error(char *err_msg);
 void    ft_here_doc(char *limite, int ac);
 void    ft_pipe(char *av, char **envp);
+int get_line(char **line);
 
 
 #endif
