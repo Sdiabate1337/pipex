@@ -18,6 +18,7 @@ void    ft_error(char *err_msg);
 void    ft_here_doc(char *limite, int ac);
 void    ft_pipe(char *av, char **envp);
 int get_line(char **line);
+int	open_file(char *argv, int i);
 
 
 #endif

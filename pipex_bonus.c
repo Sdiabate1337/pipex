@@ -1,57 +1,52 @@
 
 #include "pipex.h"
 
-int main(int ac, char **av, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-    int i;
-    int infile;
-    int outfile;
+	int	i;
+	int	infile;
+	int	outfile;
 
-    if (ac < 5)
-        ft_error("usage : ");
-    if (ft_strncmp(av[1], "here_doc", 8) == 0)
-    {
-        i = 3;
-        outfile = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
-        ft_here_doc(av[2], ac);
-    }
-    else
-    {
-        i = 2;
-        infile = open(av[1], O_RDONLY);
-        if (infile == -1)
-            ft_error("OPEN INFILE FAILED!");
-        outfile = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
-        if (outfile == -1)
-            ft_error("OPEN OUTFILE FAILED!");
-        dup2(infile, STDIN_FILENO);
-    }
-    while (i < ac - 2)
-        ft_pipe(av[i], envp);
-    dup2(outfile, STDOUT_FILENO);
-    ft_execute(av[ac - 2], envp);
+	if (argc < 5)
+		ft_error("usage: ./pipex <file1> <cmd1> <cmd2> <...> <file2>\n");
+	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
+	{
+		i = 3;
+		outfile = open_file(argv[argc - 1], 0);
+		ft_here_doc(argv[2], argc);
+	}
+	else
+	{
+		i = 2;
+		outfile = open_file(argv[argc - 1], 1);
+		infile = open_file(argv[1], 2);
+		dup2(infile, STDIN_FILENO);
+	}
+	while (i < argc - 2)
+		ft_pipe(argv[i++], envp);
+	dup2(outfile, STDOUT_FILENO);
+	ft_execute(argv[argc - 2], envp);
 }
 
-
-void    ft_here_doc(char *limite, int ac)
+void	ft_here_doc(char *limiter, int argc)
 {
-   pid_t	pid;
+	pid_t	pid;
 	int		fd[2];
 	char	*line;
 
-	if (ac < 6)
-		ft_error("usage: ");
+	if (argc != 6)
+		ft_error("here_doc usage:  ./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <file>\n");
 	if (pipe(fd) == -1)
-		ft_error("PIPE() FAILED!");
+		ft_error("pipe() failed!");
 	pid = fork();
-    if (pid == -1)
-        ft_error("PIPE() FAILED!");
+	if (pid == -1)
+		ft_error("fork() failed!");
 	if (pid == 0)
 	{
 		close(fd[0]);
 		while (get_line(&line))
 		{
-			if (ft_strncmp(line, limite, ft_strlen(limite)) == 0)
+			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 				exit(EXIT_SUCCESS);
 			write(fd[1], line, ft_strlen(line));
 		}
@@ -66,14 +61,14 @@ void    ft_here_doc(char *limite, int ac)
 
 void    ft_pipe(char *av, char **envp)
 {
-    pid_t	pid;
+	pid_t	pid;
 	int		fd[2];
 
 	if (pipe(fd) == -1)
-		ft_error("PIPE() FAILED!");
+		ft_error("pipe() failed!");
 	pid = fork();
 	if (pid == -1)
-		ft_error("FORK() FAILED!");
+		ft_error("fork() failed!");
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -113,4 +108,20 @@ int	get_line(char **line)
 	*line = buffer;
 	free(buffer);
 	return (lue);
+}
+
+int	open_file(char *argv, int i)
+{
+	int	file;
+
+	file = 0;
+	if (i == 0)
+		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else if (i == 1)
+		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else if (i == 2)
+		file = open(argv, O_RDONLY, 0777);
+	if (file == -1)
+		ft_error("file open failed!");
+	return (file);
 }

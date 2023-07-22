@@ -26,7 +26,7 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 
-re: all fclean
+re: fclean all
 
 bonus: $(OBJ) $(B_OBJ)
 	@echo "$(green)Creating $@"
