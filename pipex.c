@@ -1,5 +1,17 @@
- #include "pipex.h"
- 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdiabate <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/23 16:29:33 by sdiabate          #+#    #+#             */
+/*   Updated: 2023/07/23 16:29:40 by sdiabate         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		fd[2];
@@ -16,12 +28,14 @@ int	main(int argc, char **argv, char **envp)
 		ft_child_proc(argv, envp, fd);
 	waitpid(pid, NULL, 0);
 	ft_parent_proc(argv, envp, fd);
+	system("leaks pipex");
+	system("leaks pipex");
 	return (0);
 }
 
 void	ft_child_proc(char **argv, char **envp, int *fd)
 {
-	int		infile;
+	int	infile;
 
 	infile = open(argv[1], O_RDONLY, 0777);
 	if (infile == -1)
@@ -34,7 +48,7 @@ void	ft_child_proc(char **argv, char **envp, int *fd)
 
 void	ft_parent_proc(char **argv, char **envp, int *fd)
 {
-	int		outfile;
+	int	outfile;
 
 	outfile = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (outfile == -1)

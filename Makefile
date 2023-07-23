@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 
 SRCS = pipex.c pipex_utils.c 
-SRCS_BONUS = pipex_bonus.c pipex_utils.c 
+SRCS_BONUS = pipex_bonus.c pipex_utils.c bonus_utils.c
 
 OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
