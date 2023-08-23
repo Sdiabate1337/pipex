@@ -1,5 +1,16 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sdiabate <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/23 08:49:55 by sdiabate          #+#    #+#              #
+#    Updated: 2023/08/23 08:50:09 by sdiabate         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 PROG = pipex
-CC = cc 
+CC = clang 
 CFLAGS = -Wall -Wextra -Werror 
 
 SRCS = pipex.c pipex_utils.c 
@@ -9,7 +20,6 @@ OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all:	${PROG}
-
 
 ${PROG}:	${OBJS}
 		@echo "\033[33m----Compiling lib----"

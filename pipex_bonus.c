@@ -36,7 +36,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_pipe(argv[i++], envp);
 	dup2(outfile, STDOUT_FILENO);
 	ft_execute(argv[argc - 2], envp);
-	while(1){};
 	return (0);
 }
 

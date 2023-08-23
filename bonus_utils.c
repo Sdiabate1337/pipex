@@ -36,7 +36,7 @@ void	ft_getline_write(char *limiter, int *fd)
 	while (get_line(&line))
 	{
 		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-			exit(EXIT_SUCCESS);
+			exit (EXIT_SUCCESS);
 		write(fd[1], line, ft_strlen(line));
 	}
 }
